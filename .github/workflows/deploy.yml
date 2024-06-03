@@ -3,7 +3,7 @@ name: Deploy static site to GitHub Pages
 on:
   push:
     branches:
-      - main 
+      - main  # Ensure this matches your default branch
 
 jobs:
   deploy:
@@ -33,14 +33,22 @@ jobs:
           npm run build
         fi
 
+    - name: Debug Git Configuration
+      run: |
+        git config --list
+        git status
+        git branch
+        git remote -v
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist  # Adjust this if your build directory is different
 
-    - name: Debug Git
+    - name: Debug Git Post-Deployment
       run: |
         git status
         git branch
         git remote -v
+
