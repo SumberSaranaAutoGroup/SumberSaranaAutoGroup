@@ -18,6 +18,11 @@ jobs:
       with:
         node-version: '14'
 
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
     - name: Install dependencies
       run: |
         if [ -f package.json ]; then
@@ -35,3 +40,4 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: .  # The directory to deploy
+        force_orphan: true  # Force push to gh-pages
