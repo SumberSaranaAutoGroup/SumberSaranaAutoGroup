@@ -3,7 +3,7 @@ name: Deploy static site to GitHub Pages
 on:
   push:
     branches:
-      - main  
+      - main 
 
 jobs:
   deploy:
@@ -18,10 +18,8 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Configure Git
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+    - name: Clean working directory
+      run: git clean -fdx
 
     - name: Install dependencies
       run: |
@@ -39,5 +37,10 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .  # The directory to deploy
-        force_orphan: true  # Force push to gh-pages
+        publish_dir: ./dist  # Adjust this if your build directory is different
+
+    - name: Debug Git
+      run: |
+        git status
+        git branch
+        git remote -v
